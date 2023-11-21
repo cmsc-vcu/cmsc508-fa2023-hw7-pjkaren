@@ -1,6 +1,6 @@
 ---
 title: Homework 7 - Creating a resume database
-author: (your name goes here!)
+author: Pierre-Joseph Karen
 date: last-modified
 format:
     html:
@@ -10,9 +10,10 @@ format:
         code-copy: true
 ---
 
-(include a brief description of what is in this document)
+This html document covers a database created to resume information for the employees of a software development company. The database includes tables for people, roles, and skills, and a supertable which connects these 3 entities.
 
-(Please clean up any comments that I included.  This is a scaffold document.)
+
+
 
 GITHUB URL:  https://github.com/cmsc-vcu/cmsc508-fa2023-hw7-pjkaren.git
 
@@ -92,7 +93,7 @@ except Exception as e:
 
 ## Overview and description
 
-(briefly describe the project and the database)
+The database designed for your company encapsulates a comprehensive repository of collective skills, certifications, and employee information. It serves as a central hub to manage and identify the skills possessed by individuals, aiding in finding specific skill sets among employees and highlighting skill gaps in particular roles. The database segments information into three main tables: one for skills and certifications, encompassing IDs, names, descriptions, and URLs; another for employees, housing details like employee IDs, names, contact information, LinkedIn profiles, bios, and join dates; and a third for roles, with role IDs, names, and sort IDs for reporting purposes. The database facilitates the association of skills/certifications with employees, allowing multiple skills per employee and tracking acquisition dates, including expected future skill acquisition. Additionally, it maps employees to roles, enabling employees to take on multiple roles and tracking their assignment dates, providing a comprehensive framework to aid your esteemed sensei in enhancing the company's capabilities and propelling its growth.
 
 ## Crows-foot diagram
 
@@ -101,15 +102,47 @@ except Exception as e:
 ```{mermaid}
 %%| echo: false
 erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
-    CUSTOMER{
-        int id
+    PEOPLESKILLS ||--|| SKILL : has
+    PEOPLESKILLS ||--|| PEOPLE : has
+    PEOPLEROLES ||--|| PEOPLE : has
+    PEOPLEROLES ||--|| ROLE : has
+    
+    
+    PEOPLE{
+        int people_id
         string first_name
         string last_name
+        string email
+        string linkedin_url
+        string headshot_url
+        string discord_handle
+        string brief_bio
+        date date_joined
     }
-    DELIVERY-ADDRESS {
-        int id
+    ROLE {
+        int role_id
+        string role_name
+        int sort_priority
+    }
+    SKILL {
+        int skills_id
+        string skills_name
+        string skills_description
+        string skills_tag
+        string skills_url
+        string skills_time_commitment
+    }
+    PEOPLESKILLS {
+        int ps_id
+        int skills_id
+        int people_id
+        date date_acquired
+    }
+    PEOPLEROLES {
+        int pr_id
+        int people_id
+        int role_id
+        date date_assigned
     }
 ```
 
@@ -149,8 +182,18 @@ Below is a list of data in the *skills* table.
 ```{python}
 #| echo: false
 #| eval: true
-
+sql = f"""
+select * from skills;
+"""
 ## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
 ```
 
 ### Roles table
@@ -162,8 +205,18 @@ Below is a list of data in the *roles* table.
 ```{python}
 #| echo: false
 #| eval: true
-
+sql = f"""
+select * from roles;
+"""
 ## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
 ```
 
 

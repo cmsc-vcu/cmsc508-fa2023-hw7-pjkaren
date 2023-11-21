@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="(your name goes here!)">
+<meta name="author" content="Pierre-Joseph Karen">
 <meta name="dcterms.date" content="2023-11-20">
 
 <title>Homework 7 - Creating a resume database</title>
@@ -3356,7 +3356,7 @@ z-index: 1000;
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>(your name goes here!) </p>
+             <p>Pierre-Joseph Karen </p>
           </div>
   </div>
     
@@ -3373,12 +3373,11 @@ z-index: 1000;
 
 </header>
 
-<p>(include a brief description of what is in this document)</p>
-<p>(Please clean up any comments that I included. This is a scaffold document.)</p>
+<p>This html document covers a database created to resume information for the employees of a software development company. The database includes tables for people, roles, and skills, and a supertable which connects these 3 entities.</p>
 <p>GITHUB URL: https://github.com/cmsc-vcu/cmsc508-fa2023-hw7-pjkaren.git</p>
 <section id="overview-and-description" class="level2">
 <h2 class="anchored" data-anchor-id="overview-and-description">Overview and description</h2>
-<p>(briefly describe the project and the database)</p>
+<p>The database designed for your company encapsulates a comprehensive repository of collective skills, certifications, and employee information. It serves as a central hub to manage and identify the skills possessed by individuals, aiding in finding specific skill sets among employees and highlighting skill gaps in particular roles. The database segments information into three main tables: one for skills and certifications, encompassing IDs, names, descriptions, and URLs; another for employees, housing details like employee IDs, names, contact information, LinkedIn profiles, bios, and join dates; and a third for roles, with role IDs, names, and sort IDs for reporting purposes. The database facilitates the association of skills/certifications with employees, allowing multiple skills per employee and tracking acquisition dates, including expected future skill acquisition. Additionally, it maps employees to roles, enabling employees to take on multiple roles and tracking their assignment dates, providing a comprehensive framework to aid your esteemed sensei in enhancing the company’s capabilities and propelling its growth.</p>
 </section>
 <section id="crows-foot-diagram" class="level2">
 <h2 class="anchored" data-anchor-id="crows-foot-diagram">Crows-foot diagram</h2>
@@ -3388,15 +3387,47 @@ z-index: 1000;
 <div>
 <div>
 <pre class="mermaid mermaid-js">erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
-    CUSTOMER{
-        int id
+    PEOPLESKILLS ||--|| SKILL : has
+    PEOPLESKILLS ||--|| PEOPLE : has
+    PEOPLEROLES ||--|| PEOPLE : has
+    PEOPLEROLES ||--|| ROLE : has
+    
+    
+    PEOPLE{
+        int people_id
         string first_name
         string last_name
+        string email
+        string linkedin_url
+        string headshot_url
+        string discord_handle
+        string brief_bio
+        date date_joined
     }
-    DELIVERY-ADDRESS {
-        int id
+    ROLE {
+        int role_id
+        string role_name
+        int sort_priority
+    }
+    SKILL {
+        int skills_id
+        string skills_name
+        string skills_description
+        string skills_tag
+        string skills_url
+        string skills_time_commitment
+    }
+    PEOPLESKILLS {
+        int ps_id
+        int skills_id
+        int people_id
+        date date_acquired
+    }
+    PEOPLEROLES {
+        int pr_id
+        int people_id
+        int role_id
+        date date_assigned
     }
 </pre>
 </div>
@@ -3412,7 +3443,7 @@ z-index: 1000;
 <p>The <em>people</em> table contains elements that describe …</p>
 <p>Below is a list of data in the <em>people</em> table.</p>
 <div class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -3421,14 +3452,88 @@ z-index: 1000;
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th">people_id</th>
-<th data-quarto-table-cell-role="th">people_last_name</th>
+<th data-quarto-table-cell-role="th">first_name</th>
+<th data-quarto-table-cell-role="th">last_name</th>
+<th data-quarto-table-cell-role="th">email</th>
+<th data-quarto-table-cell-role="th">linkedin_url</th>
+<th data-quarto-table-cell-role="th">headshot_url</th>
+<th data-quarto-table-cell-role="th">discord_handle</th>
+<th data-quarto-table-cell-role="th">brief_bio</th>
+<th data-quarto-table-cell-role="th">date_joined</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>1</td>
+<td>None</td>
 <td>Person 1</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2023-10-15</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>None</td>
+<td>Person 2</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2010-01-13</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>None</td>
+<td>Person 3</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2020-10-03</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>None</td>
+<td>Person 4</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2016-08-26</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>None</td>
+<td>Person 5</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2021-02-14</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>None</td>
+<td>Person 6</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2019-12-25</td>
 </tr>
 </tbody>
 </table>
@@ -3441,11 +3546,164 @@ z-index: 1000;
 <h3 class="anchored" data-anchor-id="skills-table">Skills table</h3>
 <p>The <em>skills</em> table contains elements that describe …</p>
 <p>Below is a list of data in the <em>skills</em> table.</p>
+<div class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">skills_id</th>
+<th data-quarto-table-cell-role="th">skills_name</th>
+<th data-quarto-table-cell-role="th">skills_description</th>
+<th data-quarto-table-cell-role="th">skills_tag</th>
+<th data-quarto-table-cell-role="th">skills_url</th>
+<th data-quarto-table-cell-role="th">skills_time_commitment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>kick boxing</td>
+<td>kicking as well as punching</td>
+<td>Skill 1</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>python coding</td>
+<td>writing python programs</td>
+<td>Skill 2</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>snowboarding</td>
+<td>shredding it up in the mountains</td>
+<td>Skill 3</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>skiing</td>
+<td>cold, fast, and dangerous</td>
+<td>Skill 4</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>drawing</td>
+<td>not your average doodle</td>
+<td>Skill 5</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>jumping</td>
+<td>look at the legs on this guy</td>
+<td>Skill 6</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>7</td>
+<td>yelling</td>
+<td>theres an art to loud</td>
+<td>Skill 7</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>8</td>
+<td>yodeling</td>
+<td>yelling of the mountainous variety</td>
+<td>Skill 8</td>
+<td>None</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
 </section>
 <section id="roles-table" class="level3">
 <h3 class="anchored" data-anchor-id="roles-table">Roles table</h3>
 <p>The <em>roles</em> table contains elements that describe …</p>
 <p>Below is a list of data in the <em>roles</em> table.</p>
+<div class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">role_id</th>
+<th data-quarto-table-cell-role="th">role_name</th>
+<th data-quarto-table-cell-role="th">sort_priority</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Designer</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Developer</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>Recruit</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Team Lead</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Boss</td>
+<td>50</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>Mentor</td>
+<td>60</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="sample-queries" class="level2">
@@ -3462,7 +3720,7 @@ z-index: 1000;
 </div>
 <p>(and here is a sample result from the query)</p>
 <div class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -3471,14 +3729,88 @@ z-index: 1000;
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th">people_id</th>
-<th data-quarto-table-cell-role="th">people_last_name</th>
+<th data-quarto-table-cell-role="th">first_name</th>
+<th data-quarto-table-cell-role="th">last_name</th>
+<th data-quarto-table-cell-role="th">email</th>
+<th data-quarto-table-cell-role="th">linkedin_url</th>
+<th data-quarto-table-cell-role="th">headshot_url</th>
+<th data-quarto-table-cell-role="th">discord_handle</th>
+<th data-quarto-table-cell-role="th">brief_bio</th>
+<th data-quarto-table-cell-role="th">date_joined</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>1</td>
+<td>None</td>
 <td>Person 1</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2023-10-15</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>None</td>
+<td>Person 2</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2010-01-13</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>None</td>
+<td>Person 3</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2020-10-03</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>None</td>
+<td>Person 4</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2016-08-26</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>None</td>
+<td>Person 5</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2021-02-14</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>None</td>
+<td>Person 6</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>2019-12-25</td>
 </tr>
 </tbody>
 </table>
