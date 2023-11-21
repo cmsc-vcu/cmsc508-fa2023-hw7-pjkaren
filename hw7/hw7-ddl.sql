@@ -98,7 +98,11 @@ insert into people (people_id,first_name, last_name, date_joined) values
     (3,'Pegasus' ,'Person 3','2020-10-03'),
     (4,'Henry' ,'Person 4','2016-08-26'),
     (5,'Barbara' ,'Person 5','2021-02-14'),
-    (6,'Nobunaga' ,'Person 6','2019-12-25');
+    (6,'Nobunaga' ,'Person 6','2019-12-25'),
+    (7,'Peter' ,'Person 7','2019-10-03'),
+    (8,'Nicolas' ,'Person 8','2017-08-26'),
+    (9,'Thomas' ,'Person 9','2022-02-14'),
+    (10,'Max' ,'Person 10','2020-12-25');
 
 
 # Section 6
