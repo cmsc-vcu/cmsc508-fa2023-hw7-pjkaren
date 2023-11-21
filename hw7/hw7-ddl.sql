@@ -93,12 +93,12 @@ select * from people;
 # Other fields are for you to assign.
 
 insert into people (people_id,first_name, last_name, date_joined) values 
-    (1,Yugi ,'Person 1','2023-10-15'),
-    (2,Kaiba ,'Person 2','2010-01-13'),
-    (3,Pegasus ,'Person 3','2020-10-03'),
-    (4,Henry ,'Person 4','2016-08-26'),
-    (5,Barbara ,'Person 5','2021-02-14'),
-    (6,Nobunaga ,'Person 6','2019-12-25');
+    (1,'Yugi' ,'Person 1','2023-10-15'),
+    (2,'Kaiba' ,'Person 2','2010-01-13'),
+    (3,'Pegasus' ,'Person 3','2020-10-03'),
+    (4,'Henry' ,'Person 4','2016-08-26'),
+    (5,'Barbara' ,'Person 5','2021-02-14'),
+    (6,'Nobunaga' ,'Person 6','2019-12-25');
 
 
 # Section 6
