@@ -97,15 +97,15 @@ The database designed for your company encapsulates a comprehensive repository o
 
 ## Crows-foot diagram
 
-(add a description of the diagram and what the reader is seeing.)
+Below is a diagram describing how the five tables in the database are connected. The three main entities in the table are PEOPLE, SKILL, AND ROLE. A PEOPLE entry represents one employee. A SKILL or ROLE entry pertains to either a talent or position held by an employee. Each person can only have one role, but can have many skills. As a result, each person has only one PEOPLEROLES entry and can have many PEOPLESKILLS entry. Both SKILL to PEOPLESKILLS and ROLE to PEOPLEROLES are one-to-many as skills and roles can appear in multiple entries, but each entry only contains one skill or role.
 
 ```{mermaid}
 %%| echo: false
 erDiagram
-    PEOPLESKILLS ||--|| SKILL : has
-    PEOPLESKILLS ||--|| PEOPLE : has
+    PEOPLESKILLS }|--|{ SKILL : has
+    PEOPLESKILLS }|--|| PEOPLE : has
     PEOPLEROLES ||--|| PEOPLE : has
-    PEOPLEROLES ||--|| ROLE : has
+    PEOPLEROLES }|--|{ ROLE : has
     
     
     PEOPLE{
@@ -152,7 +152,7 @@ For the people, skills, and roles tables, provide a description of each table an
 
 ### People table
 
-The *people* table contains elements that describe ... 
+The *people* table contains elements that describe personal information related to each employee, as well as a picture, possible means of contact, and the date they joined the company.
 
 Below is a list of data in the *people* table.
 
@@ -175,7 +175,7 @@ df
 
 ### Skills table
 
-The *skills* table contains elements that describe ... 
+The *skills* table contains elements that describe various talents possessed by employees. While not all professional, the entries contain info on what each talent is, how long an employee has invested in the skill, and a url through which more info can be obtained about the skill.
 
 Below is a list of data in the *skills* table.
 
@@ -198,7 +198,7 @@ df
 
 ### Roles table
 
-The *roles* table contains elements that describe ... 
+The *roles* table contains elements that describe the various positions within the company. The only associated elements are an id number, the name of the position, and a priority for sorting the elements.
 
 Below is a list of data in the *roles* table.
 
@@ -226,16 +226,15 @@ Let's explore the database!
 
 # List skill names, tags, and descriptions ordered by name
 
-(here a sample query)
 
 ```{python}
 sql = f"""
-select * from people
+SELECT skills_name, skills_tag, skills_description
+FROM skills
+ORDER BY skills_name;
 """
 ```
 
-
-(and here is a sample result from the query)
 
 ```{python}
 #| echo: false
@@ -254,27 +253,193 @@ df
 
 ### List people names and email addresses ordered by last_name
 
+```{python}
+sql = f"""
+SELECT first_name, last_name, email
+FROM people
+ORDER BY last_name;
+
+"""
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
 
 ### List skill names of Person 1
 
+```{python}
+sql = f"""
+SELECT skills_name, skills_tag, skills_description
+FROM skills
+ORDER BY skills_name;
+
+"""
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
 
 ### List people names with Skill 6
 
+```{python}
+sql = f"""
+select * from people
+"""
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
 
 ### List people with a DEVELOPER role
 
+```{python}
+sql = f"""
+select * from people
+"""
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
 
 ### List names and email addresses of people without skills
 
+```{python}
+sql = f"""
+select * from people
+"""
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
 
 ### List names and tags of unused skills
 
+```{python}
+sql = f"""
+select * from people
+"""
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
 
 ### List people names and skill names with the BOSS role
 
+```{python}
+sql = f"""
+select * from people
+"""
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
 
 ### List ids and names of unused roles
 
+```{python}
+sql = f"""
+select * from people
+"""
+```
+
+
+```{python}
+#| echo: false
+#| eval: true
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
 
 ## Reflection
 
