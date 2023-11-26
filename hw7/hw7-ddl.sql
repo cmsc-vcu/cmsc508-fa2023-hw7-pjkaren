@@ -111,8 +111,8 @@ insert into people (people_id,first_name, last_name, date_joined) values
 
 create table peopleskills( 
     ps_id int not null auto_increment,
-    skills_id int NOT NULL,
     people_id int NOT NULL,
+    skills_id int NOT NULL,
     date_acquired date not null,
     primary key (ps_id)
 );
@@ -131,8 +131,8 @@ create table peopleskills(
 # Person 10 has skills 1,4,5;
 # Note that no one has yet acquired skills 7 and 8.
 
-INSERT INTO peopleskills (skills_id, people_id, date_acquired) values
-    (1, 1, '2017-01-15'), (1, 1, '2020-06-10'), (1, 1, '2018-02-18'),
+INSERT INTO peopleskills (people_id, skills_id, date_acquired) values
+    (1, 1, '2017-01-15'), (1, 3, '2020-06-10'), (1, 6, '2018-02-18'),
     (2, 3, '2019-02-22'), (2, 4, '2019-03-01'), (2, 5, '2019-03-25'),
     (3, 1, '2020-03-28'), (3, 5, '2018-04-05'),
     (5, 3, '2017-05-10'), (5, 6, '2021-10-05'),
@@ -200,13 +200,13 @@ select * from peopleroles;
 # Person 10 is Developer and Designer
 
 INSERT INTO peopleroles (people_id, role_id, date_assigned) values
-    (1, 20, '2018-01-01'),
-	(2, 50, '2020-02-01'), (2, 60, '2019-11-01'),
-	(3, 20, '2021-03-01'), (3, 40, '2018-01-02'),
-	(4, 30, '2019-04-01'),
-	(5, 30, '2017-05-01'),
-	(6, 20, '2022-06-01'), (6, 10, '2019-05-03'),
-	(7, 10, '2020-07-01'),
-	(8, 10, '2018-08-01'), (8, 40, '2021-10-17'),
-	(9, 20, '2017-09-01'),
-	(10, 20, '2023-10-01'), (10, 10, '2017-11-11');
+    (1, 2, '2018-01-01'),
+	(2, 5, '2020-02-01'), (2, 6, '2019-11-01'),
+	(3, 2, '2021-03-01'), (3, 4, '2018-01-02'),
+	(4, 3, '2019-04-01'),
+	(5, 3, '2017-05-01'),
+	(6, 2, '2022-06-01'), (6, 1, '2019-05-03'),
+	(7, 1, '2020-07-01'),
+	(8, 1, '2018-08-01'), (8, 4, '2021-10-17'),
+	(9, 2, '2017-09-01'),
+	(10, 2, '2023-10-01'), (10, 1, '2017-11-11');

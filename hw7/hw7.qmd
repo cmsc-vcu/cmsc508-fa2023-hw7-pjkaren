@@ -281,9 +281,11 @@ df
 
 ```{python}
 sql = f"""
-SELECT skills_name, skills_tag, skills_description
-FROM skills
-ORDER BY skills_name;
+SELECT s.skills_name
+FROM skills s
+JOIN peopleskills ps ON s.skills_id = ps.skills_id
+JOIN people p ON ps.people_id = p.people_id
+WHERE p.people_id = 1;
 
 """
 ```
@@ -307,7 +309,10 @@ df
 
 ```{python}
 sql = f"""
-select * from people
+SELECT DISTINCT p.first_name, p.last_name
+FROM people p
+JOIN peopleskills ps ON p.people_id = ps.people_id
+WHERE ps.skills_id = 6;
 """
 ```
 
@@ -330,7 +335,10 @@ df
 
 ```{python}
 sql = f"""
-select * from people
+SELECT DISTINCT p.first_name, p.last_name
+FROM people p
+JOIN peopleroles pr ON p.people_id = pr.people_id
+WHERE pr.role_id = 2;
 """
 ```
 
@@ -353,7 +361,14 @@ df
 
 ```{python}
 sql = f"""
-select * from people
+SELECT first_name, last_name, email
+FROM people
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM peopleskills
+    WHERE people.people_id = peopleskills.people_id
+);
+
 """
 ```
 
@@ -376,7 +391,13 @@ df
 
 ```{python}
 sql = f"""
-select * from people
+SELECT skills_name, skills_tag
+FROM skills
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM peopleskills
+    WHERE skills.skills_id = peopleskills.skills_id
+);
 """
 ```
 
@@ -399,7 +420,12 @@ df
 
 ```{python}
 sql = f"""
-select * from people
+SELECT p.first_name, p.last_name, s.skills_name
+FROM people p
+JOIN peopleroles pr ON p.people_id = pr.people_id
+JOIN roles r ON pr.role_id = r.role_id AND r.role_name = 'Boss'
+LEFT JOIN peopleskills ps ON p.people_id = ps.people_id
+LEFT JOIN skills s ON ps.skills_id = s.skills_id;
 """
 ```
 
@@ -422,7 +448,13 @@ df
 
 ```{python}
 sql = f"""
-select * from people
+SELECT role_id, role_name
+FROM roles
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM peopleroles
+    WHERE roles.role_id = peopleroles.role_id
+);
 """
 ```
 
@@ -443,5 +475,5 @@ df
 
 ## Reflection
 
-(Write a paragraph expressing your thoughts, feelings, and insights about your experience with this assignment.  Pause and breath before writing - I'm trying to encourage critical thinking and self-awareness while allowing you to explore the connections between theory and practice. And yes, delete this paragraph.)
+In writing this report, the most challenging portion was making the queries work correctly. I still do not think my queries are all functioning as they should, however I feel comfortable now exploring them and tinkering with them going forward.
 
