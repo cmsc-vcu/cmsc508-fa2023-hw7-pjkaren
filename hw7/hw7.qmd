@@ -281,7 +281,7 @@ df
 
 ```{python}
 sql = f"""
-SELECT s.skills_name
+SELECT s.skills_name,p.last_name,s.skills_id
 FROM skills s
 JOIN peopleskills ps ON s.skills_id = ps.skills_id
 JOIN people p ON ps.people_id = p.people_id
@@ -309,7 +309,7 @@ df
 
 ```{python}
 sql = f"""
-SELECT DISTINCT p.first_name, p.last_name
+SELECT DISTINCT p.first_name, p.last_name, ps.skills_id
 FROM people p
 JOIN peopleskills ps ON p.people_id = ps.people_id
 WHERE ps.skills_id = 6;
@@ -420,7 +420,7 @@ df
 
 ```{python}
 sql = f"""
-SELECT p.first_name, p.last_name, s.skills_name
+SELECT p.first_name, p.last_name, s.skills_name, s.skills_id
 FROM people p
 JOIN peopleroles pr ON p.people_id = pr.people_id
 JOIN roles r ON pr.role_id = r.role_id AND r.role_name = 'Boss'
@@ -475,5 +475,12 @@ df
 
 ## Reflection
 
-In writing this report, the most challenging portion was making the queries work correctly. I still do not think my queries are all functioning as they should, however I feel comfortable now exploring them and tinkering with them going forward.
+In writing this report, the most challenging portion was making the queries work correctly. On my initial submission I spent a lot of time tinkering with the queries to make them work. I eventually realized that after fixing my ddl, I had to rerun it as the qmd did not run it automatically during the render process. Now that I've resolved it all my queries work as expected.
 
+Overall, using SQL is very intuitive, as long as you familiar with the tables and the primary keys that connect tables. In many cases the primary key for the table is abstracted down to an index, and it can be tricky unless you know the exact key to look for. 
+
+Searching within a table given the exact key is fast and easy. However, in the case of listing people names and skill names with the boss role multiple joins were required across numerous tables to find the associated information.
+
+I'm a big fan of the way the conditional statements are formatted for clarity in this document. Having each condition on a different line and keeping a consistent order makes dealing with queries, even long ones, very understandable.
+
+Overall, joins can get messy if you need a lot. However, with a well-defined workflow like in the quarto documents used to complete the homeworks, reiterating to find the query results you are looking for comes easy.
